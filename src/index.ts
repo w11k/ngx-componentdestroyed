@@ -14,3 +14,4 @@ export function componentDestroyed(component: OnDestroy): Observable<undefined> 
     };
     return stop$;
 }
+

@@ -1,6 +1,9 @@
 import {Subject} from "rxjs/Subject";
-import {OnDestroy} from "@angular/core";
 import {Observable} from "rxjs/Observable";
+
+export interface OnDestroy {
+    ngOnDestroy(): void;
+}
 
 export function componentDestroyed(component: OnDestroy): Observable<undefined> {
     const oldNgOnDestroy = component.ngOnDestroy;
@@ -11,5 +14,3 @@ export function componentDestroyed(component: OnDestroy): Observable<undefined> 
     };
     return stop$;
 }
-
-

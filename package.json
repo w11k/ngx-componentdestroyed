@@ -1,0 +1,32 @@
+{
+  "name": "ng2-rx-componentdestroyed",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "rxjs": "5.x",
+    "@angular/core": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "2.3.2",
+    "typings": "^2.1.1"
+  },
+  "peerDependencies": {
+    "rxjs": "5.x",
+    "@angular/core": "^2.x"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "postinstall": "typings install",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "publish": "npm run build && npm run publish"
+  }
+}

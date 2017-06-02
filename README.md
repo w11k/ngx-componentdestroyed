@@ -55,6 +55,11 @@ export class FooComponent implements OnDestroy {
 Combine the Observable operator `takeUntil()` with this library. This only works inside Angular components since this library uses the component's life cycle hooks to determine when the Observable is not needed anymore.
 
 ```
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
+
+...
+...
+
 Observable.interval(1000)
   .takeUntil(componentDestroyed(this))
   .subscribe(console.log);

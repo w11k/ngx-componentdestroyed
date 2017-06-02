@@ -59,3 +59,7 @@ Observable.interval(1000)
   .takeUntil(componentDestroyed(this))
   .subscribe(console.log);
 ```
+
+## More information
+
+https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-observables-in-angular-5abde80a5ae3

@@ -1,6 +1,7 @@
 {
   "name": "ng2-rx-componentdestroyed",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -18,14 +19,11 @@
   "peerDependencies": {
     "rxjs": "5.x"
   },
-  "engines": {
-    "node": ">=0.8.0"
-  },
   "scripts": {
     "postinstall": "typings install",
     "build": "tsc",
     "watch": "tsc -w",
     "prepublishOnly": "npm run build",
-    "postpublish": "npm version patch && git push"
+    "postpublish": "git push"
   }
 }

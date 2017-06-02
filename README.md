@@ -13,7 +13,7 @@ export class FooComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     Observable.interval(1000)
-      .takeUntil(componentDestroyed(this)) // <--- magic is here :boom:
+      .takeUntil(componentDestroyed(this)) // <--- magic is here!
       .subscribe(console.log);
   }
 

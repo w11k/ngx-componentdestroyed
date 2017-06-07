@@ -11,6 +11,7 @@ export function componentDestroyed(component: OnDestroy): Observable<undefined> 
     component.ngOnDestroy = function () {
         oldNgOnDestroy && oldNgOnDestroy.apply(component);
         stop$.next(undefined);
+        stop$.complete();
     };
     return stop$;
 }

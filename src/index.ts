@@ -1,11 +1,11 @@
 import {Subject} from "rxjs/Subject";
 import {Observable} from "rxjs/Observable";
 
-export interface OnDestroy {
+export type OnDestroyLike = {
     ngOnDestroy(): void;
 }
 
-export function componentDestroyed(component: OnDestroy): Observable<undefined> {
+export function componentDestroyed(component: OnDestroyLike): Observable<undefined> {
     const oldNgOnDestroy = component.ngOnDestroy;
     const stop$ = new Subject();
     component.ngOnDestroy = function () {

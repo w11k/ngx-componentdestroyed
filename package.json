@@ -4,6 +4,7 @@
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "repository": "https://github.com/w11k/ng2-rx-componentdestroyed",
   "files": [
     "dist",
     "LICENSE",

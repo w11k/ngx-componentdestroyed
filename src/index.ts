@@ -17,8 +17,6 @@ export function componentDestroyed(component: OnDestroyLike): Observable<true> {
     return stop$.asObservable();
 }
 
-export function untilComponentDestroyed<T>(this: Observable<any>, component: OnDestroyLike): Observable<T> {
-    return this.pipe(
-        takeUntil(componentDestroyed(component))
-    );
+export function untilComponentDestroyed<T>(component: OnDestroyLike): (source: Observable<T>) => Observable<T> {
+    return (source: Observable<T>) => source.pipe(takeUntil(componentDestroyed(component)));
 }

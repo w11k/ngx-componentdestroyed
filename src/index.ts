@@ -1,22 +1,21 @@
 import {Observable} from "rxjs/Observable";
 import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs/Subject";
+import {ReplaySubject} from "rxjs/ReplaySubject";
 
-export type OnDestroyLike = {
-    ngOnDestroy(): void;
-}
-
-export function componentDestroyed(component: OnDestroyLike): Observable<true> {
+export function componentDestroyed(component: any): Observable<true> {
+    if (component.__componentDestroyed$) {
+        return component.__componentDestroyed$;
+    }
     const oldNgOnDestroy = component.ngOnDestroy;
-    const stop$ = new Subject<true>();
+    const stop$ = new ReplaySubject<true>();
     component.ngOnDestroy = function () {
         oldNgOnDestroy && oldNgOnDestroy.apply(component, arguments);
         stop$.next(true);
         stop$.complete();
     };
-    return stop$.asObservable();
+    return component.__componentDestroyed$ = stop$.asObservable();
 }
 
-export function untilComponentDestroyed<T>(component: OnDestroyLike): (source: Observable<T>) => Observable<T> {
+export function untilComponentDestroyed<T>(component: any): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>) => source.pipe(takeUntil(componentDestroyed(component)));
 }

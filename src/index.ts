@@ -2,8 +2,9 @@ import {Observable} from "rxjs/Observable";
 import {takeUntil} from "rxjs/operators";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 
-export type OnDestroyLike = {
+export interface OnDestroyLike {
     ngOnDestroy(): void;
+    [key: string]: any;
 }
 
 export function componentDestroyed(component: OnDestroyLike): Observable<true> {

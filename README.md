@@ -13,8 +13,10 @@ export class FooComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     Observable.interval(1000)
-      .takeUntil(componentDestroyed(this)) // <--- magic is here!
-      .subscribe(console.log);
+        .pipe(
+            untilComponentDestroyed(this) // <--- magic is here!
+        )
+        .subscribe(console.log);
   }
 
   ngOnDestroy() {
@@ -52,18 +54,25 @@ export class FooComponent implements OnDestroy {
 
 ### Usage
 
-Combine the Observable operator `takeUntil()` with this library. This only works inside Angular components since this library uses the component's life cycle hooks to determine when the Observable is not needed anymore.
+Use the `untilComponentDestroyed()` method as an Observable pipe operator. This only works inside Angular components since this library uses the component's life cycle hooks to determine when the Observable is not needed anymore.
 
 ```
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 ...
 ...
 
 Observable.interval(1000)
-  .takeUntil(componentDestroyed(this))
-  .subscribe(console.log);
+    .pipe(
+        untilComponentDestroyed(this)
+    )
+    .subscribe(console.log);
 ```
+
+Error: Argument of type 'Observable' is not assignable to parameter of type 'Observable'
+
+Please see https://github.com/w11k/ng2-rx-componentdestroyed/issues/2
+
 
 ## More information
 

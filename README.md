@@ -69,7 +69,7 @@ Observable.interval(1000)
     .subscribe(console.log);
 ```
 
-Error: Argument of type 'Observable' is not assignable to parameter of type 'Observable'
+## Error: Argument of type 'Observable' is not assignable to parameter of type 'Observable'
 
 Please see https://github.com/w11k/ng2-rx-componentdestroyed/issues/2
 

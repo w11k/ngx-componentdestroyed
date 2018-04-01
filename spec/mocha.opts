@@ -1,0 +1,11 @@
+--require source-map-support/register
+--require ts-node/register
+--require spec/setup.js
+
+--ui bdd
+--reporter spec
+
+--check-leaks
+
+--recursive
+--timeout 1000

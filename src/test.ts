@@ -1,8 +1,7 @@
-import {componentDestroyed, OnDestroyLike, untilComponentDestroyed} from "./index";
-import {Subject} from "rxjs/Subject";
-import {switchMap, takeUntil} from "rxjs/operators";
 import {assert} from "chai";
-import {of} from "rxjs/observable/of";
+import {of, Subject} from "rxjs";
+import {switchMap, takeUntil} from "rxjs/operators";
+import {componentDestroyed, OnDestroyLike, untilComponentDestroyed} from "./index";
 
 class FakeComp implements OnDestroyLike {
     ngOnDestroy() {
@@ -60,7 +59,7 @@ describe("untilComponentDestroyed", function () {
         source
             .pipe(
                 untilComponentDestroyed(fakeComp),
-                switchMap(val => of(val + 100))
+                switchMap<number, number>(val => of(val + 100))
             )
             .subscribe(val => vals.push(val), NOOP, () => closed = true);
 

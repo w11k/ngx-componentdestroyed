@@ -1,9 +1,6 @@
 
-[![Build Status](https://travis-ci.org/w11k/Tydux.svg?branch=master)](https://travis-ci.org/w11k/Tydux)
-
-
+[![Build Status](https://travis-ci.org/w11k/ng2-rx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ng2-rx-componentdestroyed)
 [![npm version](https://badge.fury.io/js/ng2-rx-componentdestroyed.svg)](https://badge.fury.io/js/ng2-rx-componentdestroyed)
-
 
 
 # New version 3.0.0 **breaking change**

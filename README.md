@@ -1,3 +1,16 @@
+
+[![Build Status](https://travis-ci.org/w11k/Tydux.svg?branch=master)](https://travis-ci.org/w11k/Tydux)
+
+
+[![npm version](https://badge.fury.io/js/ng2-rx-componentdestroyed.svg)](https://badge.fury.io/js/ng2-rx-componentdestroyed)
+
+
+
+# New version 3.0.0 **breaking change**
+
+- Requires >= RxJS 6.0.0
+
+
 # Unsubscribe from Observables in Angular Components
 
 This small library provides a utility method that helps to unsubscribe from ReactiveX's Observables in Angular Components.
@@ -68,11 +81,6 @@ Observable.interval(1000)
     )
     .subscribe(console.log);
 ```
-
-## Error: Argument of type 'Observable' is not assignable to parameter of type 'Observable'
-
-Please see https://github.com/w11k/ng2-rx-componentdestroyed/issues/2
-
 
 ## More information
 

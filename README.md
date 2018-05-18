@@ -5,7 +5,7 @@
 
 # New version 3.0.0 **breaking change**
 
-- Requires >= RxJS 6.0.0
+- Requires >= RxJS 6.0.0 (part of Angular 6)
 
 
 # Unsubscribe from Observables in Angular Components

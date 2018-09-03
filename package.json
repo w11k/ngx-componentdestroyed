@@ -1,8 +1,16 @@
 {
   "name": "ng2-rx-componentdestroyed",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "Apache-2.0",
-  "main": "dist/index.js",
+
+  "main": "./dist/index.js",
+  "module": "./dist/es2015/index.js",
+  "__disabled__es2015": "./dist/es2015/index.js",
+  "__disabled__esm2015": "./dist/es2015/index.js",
+  "__disabled__fesm2015": "./dist/es2015/index.js",
+  "__disabled__esm5": "./dist/es2015/index.js",
+  "__disabled__fesm5": "./dist/es2015/index.js",
+
   "typings": "dist/index.d.ts",
   "repository": "https://github.com/w11k/ng2-rx-componentdestroyed",
   "files": [
@@ -28,8 +36,7 @@
     "rxjs": "^6.0.0"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.dist.es2015.json",
     "prepublishOnly": "npm run build",
     "postpublish": "git push",
     "test": "mocha --opts spec/mocha.opts src/**/*test.ts",

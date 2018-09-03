@@ -1,4 +1,9 @@
 
+# Version 3.0.1
+
+- bundle ES2015 modules to enable tree-shaking
+
+
 # Version 3.0.0
 
 - Requires RxJS 6.0.0
@@ -8,4 +13,3 @@
 
 - Requires RxJS 5.5.6
 - added `untilComponentDestroyed` method which can be used in the `.pipe()` operator
-

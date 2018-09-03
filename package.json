@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && tsc -p tsconfig.dist.es2015.json",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm test && npm run build",
     "postpublish": "git push",
     "test": "mocha --opts spec/mocha.opts src/**/*test.ts",
     "test-watch": "mocha --opts spec/mocha.opts -w --watch-extensions ts src/**/*test.ts"

@@ -1,4 +1,9 @@
 
+# Version 4.0.0
+
+- This package was renamed to '@w11k/ngx-componentdestroyed'
+
+
 # Version 3.0.1
 
 - bundle ES2015 modules to enable tree-shaking

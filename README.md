@@ -1,9 +1,14 @@
 
-[![Build Status](https://travis-ci.org/w11k/ng2-rx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ng2-rx-componentdestroyed)
-[![npm version](https://badge.fury.io/js/ng2-rx-componentdestroyed.svg)](https://badge.fury.io/js/ng2-rx-componentdestroyed)
+[![Build Status](https://travis-ci.org/w11k/ngx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ngx-componentdestroyed)
+[![npm version](https://badge.fury.io/js/ngx-componentdestroyed.svg)](https://badge.fury.io/js/ngx-componentdestroyed)
 
 
-# New version 3.0.0 **breaking change**
+# Version 4.0.0 **new name**
+
+- This package was renamed to '@w11k/ngx-componentdestroyed'
+
+
+# Requirements
 
 - Requires >= RxJS 6.0.0 (part of Angular 6)
 

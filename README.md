@@ -45,7 +45,7 @@ export class FooComponent implements OnInit, OnDestroy {
 ### Download the NPM package
 
 ```
-npm i --save ng2-rx-componentdestroyed
+npm i --save @w11k/ngx-componentdestroyed
 ```
 
 ### Prepare the Angular Component class
@@ -72,7 +72,7 @@ export class FooComponent implements OnDestroy {
 Use the `untilComponentDestroyed()` method as an Observable pipe operator. This only works inside Angular components since this library uses the component's life cycle hooks to determine when the Observable is not needed anymore.
 
 ```
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 ...
 ...

@@ -1,5 +1,5 @@
 {
-  "name": "@w11k/ng-componentdestroyed",
+  "name": "@w11k/ngx-componentdestroyed",
   "version": "4.0.0",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

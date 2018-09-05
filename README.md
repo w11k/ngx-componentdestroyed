@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/ngx-componentdestroyed.svg)](https://badge.fury.io/js/ngx-componentdestroyed)
 
 
-# Version 4.0.0 **new name**
+# Version 4.0.0 - new name
 
 - This package was renamed to '@w11k/ngx-componentdestroyed'
 

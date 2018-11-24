@@ -122,7 +122,7 @@ and then enforces that
     "node_modules/@w11k/ngx-componentdestroyed/dist/tslint"
   ],
   "rules": {
-    "rxjs-angular-component-subscribe-takeuntil": true
+    "w11k-rxjs-angular-component-subscribe-takeuntil": true
   }
 }
 ```

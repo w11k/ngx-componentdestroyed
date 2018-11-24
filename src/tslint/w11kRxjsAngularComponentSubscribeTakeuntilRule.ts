@@ -10,7 +10,7 @@ export class Rule extends Lint.Rules.TypedRule {
         options: null,
         optionsDescription: "Not configurable.",
         requiresTypeInfo: true,
-        ruleName: "rxjs-angular-component-subscribe-takeuntil",
+        ruleName: "w11k-rxjs-angular-component-subscribe-takeuntil",
         type: "style",
         typescriptOnly: true
     };

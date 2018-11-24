@@ -1,6 +1,6 @@
 {
   "name": "@w11k/ngx-componentdestroyed",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "module": "./dist/es2015/index.js",
@@ -37,6 +37,6 @@
     "prepublishOnly": "npm test && npm run build",
     "postpublish": "git push",
     "test": "mocha --opts spec/mocha.opts src/**/*test.ts",
-    "test_tslint": "npm run clean && tsc && tslint -p tsconfig.json -c src/tslint/rule.json src/tslint/BadComponent.test.ts"
+    "test_tslint": "npm run clean && tsc && tslint -p tsconfig.json -c src/tslint/rule.json src/tslint/BadComponent.ts"
   }
 }

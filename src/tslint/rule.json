@@ -3,6 +3,6 @@
     "../../dist/tslint"
   ],
   "rules": {
-    "rxjs-angular-component-subscribe-takeuntil": true
+    "w11k-rxjs-angular-component-subscribe-takeuntil": true
   }
 }

@@ -1,0 +1,8 @@
+{
+  "rulesDirectory": [
+    "../../dist/tslint"
+  ],
+  "rules": {
+    "rxjs-angular-component-subscribe-takeuntil": true
+  }
+}

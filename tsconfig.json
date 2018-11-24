@@ -13,7 +13,6 @@
     "strictNullChecks": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "rootDirs": ["src"],
     "target": "es5",
     "outDir": "dist",
     "typeRoots": [

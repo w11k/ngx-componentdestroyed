@@ -110,7 +110,7 @@ To enforce this code style, add the provided TSLint rule. This rule triggers if
 and then enforces that 
 
 - `.pipe()` is called directly before `.subscribe()`
-- and that either `.untilComponentDestroyed()` or `.takeUntil(...)` is called as the last pipe operator
+- and that either `untilComponentDestroyed()` or `takeUntil(...)` is called as the last pipe operator
 
 ### Installation 
 

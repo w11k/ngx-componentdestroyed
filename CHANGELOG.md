@@ -1,5 +1,5 @@
 
-# Version 4.1.2
+# Version 4.1.3
 
 - deprecated untilComponentDestroyed
 

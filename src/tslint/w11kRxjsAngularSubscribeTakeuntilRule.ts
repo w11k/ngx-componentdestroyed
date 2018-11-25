@@ -35,8 +35,6 @@ function hasImport(sourceFile: ts.SourceFile, moduleName: string, namedImport: s
 // noinspection JSUnusedGlobalSymbols
 export class Rule extends Lint.Rules.TypedRule {
 
-    static called = false;
-
     // noinspection JSUnusedGlobalSymbols
     static metadata: Lint.IRuleMetadata = {
         description: "Enforces that `.pipe(..., takeUntil(...))` is called before `.subscribe()` within an Angular component/directive/pipe.",
@@ -49,28 +47,6 @@ export class Rule extends Lint.Rules.TypedRule {
     };
 
     applyWithProgram(sourceFile: ts.SourceFile, program: ts.Program): Lint.RuleFailure[] {
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("Rule.called", Rule.called);
-        // console.log("sourceFile.fileName", sourceFile.fileName);
-        //
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // console.log("#####################");
-        // Rule.called = true;
-        // program.getSourceFiles().forEach(f => {
-        //     console.log("f.fileName", f.fileName);
-        // });
-        //
-        //
-        // return [];
-
         const failures: Lint.RuleFailure[] = [];
         const typeChecker = program.getTypeChecker();
         let relevantClasses: ts.Node[] = [];

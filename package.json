@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "@phenomnomnominal/tsquery": "^3.0.0",
-    "rxjs": "^6.0.0"
+    "rxjs": ">=6.0.0"
   },
   "devDependencies": {
     "@angular/core": "^7.1.0",
@@ -29,7 +29,7 @@
     "typings": "^2.1.1"
   },
   "peerDependencies": {
-    "rxjs": "^6.0.0"
+    "rxjs": ">=6.0.0"
   },
   "scripts": {
     "clean": "del-cli dist",

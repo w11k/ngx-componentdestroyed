@@ -1,6 +1,6 @@
 
 [![Build Status](https://travis-ci.org/w11k/ngx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ngx-componentdestroyed)
-[![npm version](https://badge.fury.io/js/ngx-componentdestroyed.svg)](https://badge.fury.io/js/ngx-componentdestroyed)
+[![npm version](https://badge.fury.io/js/@w11k/ngx-componentdestroyed.svg)](https://badge.fury.io/js/@w11k/ngx-componentdestroyed)
 
 
 # Unsubscribe from Observables in Angular

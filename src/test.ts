@@ -1,9 +1,9 @@
 import {assert} from "chai";
 import {of, Subject} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
-import {componentDestroyed, OnDestroyLike, untilComponentDestroyed} from "./index";
+import {componentDestroyed, untilComponentDestroyed} from "./index";
 
-class FakeComp implements OnDestroyLike {
+class FakeComp {
     ngOnDestroy() {
     }
 }

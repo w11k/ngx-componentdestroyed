@@ -1,26 +1,21 @@
 import {Observable, ReplaySubject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 
-export interface OnDestroyLike {
-    ngOnDestroy(): void;
-
-    [key: string]: any;
-}
-
-export function componentDestroyed(component: OnDestroyLike): Observable<true> {
-    if (component.__componentDestroyed$) {
-        return component.__componentDestroyed$;
+export function componentDestroyed(component: { ngOnDestroy(): void }): Observable<true> {
+    const modifiedComponent = component as { ngOnDestroy(): void, __componentDestroyed$?: Observable<true> };
+    if (modifiedComponent.__componentDestroyed$) {
+        return modifiedComponent.__componentDestroyed$;
     }
     const oldNgOnDestroy = component.ngOnDestroy;
     const stop$ = new ReplaySubject<true>();
-    component.ngOnDestroy = function () {
+    modifiedComponent.ngOnDestroy = function () {
         oldNgOnDestroy && oldNgOnDestroy.apply(component);
         stop$.next(true);
         stop$.complete();
     };
-    return component.__componentDestroyed$ = stop$.asObservable();
+    return modifiedComponent.__componentDestroyed$ = stop$.asObservable();
 }
 
-export function untilComponentDestroyed<T>(component: OnDestroyLike): (source: Observable<T>) => Observable<T> {
+export function untilComponentDestroyed<T>(component: { ngOnDestroy(): void }): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>) => source.pipe(takeUntil(componentDestroyed(component)));
 }

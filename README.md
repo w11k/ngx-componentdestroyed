@@ -8,16 +8,19 @@ This library provides utility methods which help to unsubscribe from ReactiveX's
 
 **Why?**
 
-Angular applications suffer from memory leak issues if they subscribe Observables without *unsubscribing*   
+Failing to unsubscribe from observables will lead to unwanted memory leaks as the observable stream is left open, potentially even after a component has been destroyed or the user has navigated to another page.
 
-
-(*Why trigger on `@Injectable()`?*: If services are used in [Hierarchical Dependency Injectors](https://angular.io/guide/hierarchical-dependency-injection#hierarchical-dependency-injectors) they are affected by the same memory-leak issue!)
-
-
+*Important*: If services are used in [Hierarchical Dependency Injectors](https://angular.io/guide/hierarchical-dependency-injection#hierarchical-dependency-injectors) they are affected by the same memory-leak issue!
 
 This blog post provides additional information:
 
 https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-observables-in-angular-5abde80a5ae3
+
+**Patrons**
+
+❤️ [W11K - The Web Engineers](https://www.w11k.de/)
+
+❤️ [theCodeCampus - Trainings for Angular and TypeScript](https://www.thecodecampus.de/)
 
 **Requirements**
 
@@ -35,9 +38,9 @@ export class FooComponent implements OnInit, OnDestroy {
   ngOnInit() {
     Observable.interval(1000)
         .pipe(
-            untilComponentDestroyed(this) // <--- magic is here!
+            takeUntil(componentDestroyed(this)) // <--- magic is here!
         )
-        .subscribe(console.log);
+        .subscribe();
   }
 
   ngOnDestroy() {
@@ -75,27 +78,7 @@ export class FooComponent implements OnDestroy {
 
 ## Usage
 
-Either use 
-
-- `untilComponentDestroyed(this)` or 
-- `componentDestroyed(this)` together with `takeUntil()` 
-
-as an Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
-
-
-**untilComponentDestroyed()**
-
-```
-import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
-
-Observable.interval(1000)
-    .pipe(
-        untilComponentDestroyed(this)
-    )
-    .subscribe();
-```
-
-**componentDestroyed()**
+Use `componentDestroyed(this)` together with `takeUntil()` as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
 
 ```
 import {takeUntil} from "rxjs/operators";
@@ -107,38 +90,4 @@ Observable.interval(1000)
         takeUntil(componentDestroyed(this))
     )
     .subscribe();
-```
-
-## TSLint rule
-
-To enforce this code style, add the provided TSLint rule. This rule triggers if
-
-- a class is annotated with `Component`, `Directive`, `Pipe` or `Service`
-- and `Observable#subscribe()` is called inside that class
-
-and then enforces that 
-
-- `.pipe()` is called directly before `.subscribe()`
-- and that either `untilComponentDestroyed()` or `takeUntil()` is called as the last pipe operator
-
-
-### Installation 
-
-**Adjust your tslint.json**
-
-```
-{
-  "rulesDirectory": [
-    "node_modules/@w11k/ngx-componentdestroyed/dist/tslint"
-  ],
-  "rules": {
-    "w11k-rxjs-angular-subscribe-takeuntil": true
-  }
-}
-```
-
-**Run tslint with type info**
-
-```
-tslint -p tsconfig.json
 ```

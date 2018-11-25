@@ -1,4 +1,9 @@
 
+# Version 4.1.2
+
+- deprecated untilComponentDestroyed
+
+
 # Version 4.0.0
 
 - This package was renamed to '@w11k/ngx-componentdestroyed'

@@ -16,6 +16,9 @@ export function componentDestroyed(component: { ngOnDestroy(): void }): Observab
     return modifiedComponent.__componentDestroyed$ = stop$.asObservable();
 }
 
+/**
+ * @deprecated Use takeUntil(componentDestroyed(this)) instead
+ */
 export function untilComponentDestroyed<T>(component: { ngOnDestroy(): void }): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>) => source.pipe(takeUntil(componentDestroyed(component)));
 }

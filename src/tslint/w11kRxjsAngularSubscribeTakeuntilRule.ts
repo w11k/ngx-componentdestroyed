@@ -3,48 +3,107 @@ import * as Lint from "tslint";
 import * as ts from "typescript";
 import {couldBeType} from "./util";
 
+function getClassesWithAnnotation(sourceFile: ts.SourceFile, annotationName: string) {
+    const componentAnnotations = tsquery(
+        sourceFile,
+        `ClassDeclaration Decorator CallExpression Identifier[name='${annotationName}']`
+    );
+
+    return componentAnnotations.map(ca => ca.parent.parent.parent);
+}
+
+function hasImport(sourceFile: ts.SourceFile, moduleName: string, namedImport: string): boolean {
+    let importFound = false;
+    const angularCoreImports = tsquery(
+        sourceFile,
+        `ImportDeclaration StringLiteral[value='${moduleName}']`
+    );
+
+    angularCoreImports.forEach(stringLiteral => {
+        const componentImports = tsquery(
+            stringLiteral.parent,
+            `NamedImports Identifier[name='${namedImport}']`
+        );
+        if (componentImports.length > 0) {
+            importFound = true;
+        }
+    });
+
+    return importFound;
+}
+
+// noinspection JSUnusedGlobalSymbols
 export class Rule extends Lint.Rules.TypedRule {
 
+    static called = false;
+
+    // noinspection JSUnusedGlobalSymbols
     static metadata: Lint.IRuleMetadata = {
-        description: "Enforces that `.pipe(..., takeUntil(...))` is called before `.subscribe()` within an Angular component.",
+        description: "Enforces that `.pipe(..., takeUntil(...))` is called before `.subscribe()` within an Angular component/directive/pipe.",
         options: null,
         optionsDescription: "Not configurable.",
         requiresTypeInfo: true,
-        ruleName: "w11k-rxjs-angular-component-subscribe-takeuntil",
+        ruleName: "w11k-rxjs-angular-subscribe-takeuntil",
         type: "style",
         typescriptOnly: true
     };
 
     applyWithProgram(sourceFile: ts.SourceFile, program: ts.Program): Lint.RuleFailure[] {
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("Rule.called", Rule.called);
+        // console.log("sourceFile.fileName", sourceFile.fileName);
+        //
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // console.log("#####################");
+        // Rule.called = true;
+        // program.getSourceFiles().forEach(f => {
+        //     console.log("f.fileName", f.fileName);
+        // });
+        //
+        //
+        // return [];
+
         const failures: Lint.RuleFailure[] = [];
         const typeChecker = program.getTypeChecker();
-        let isAngularComponentFile = false;
+        let relevantClasses: ts.Node[] = [];
 
-        const angularCoreImports = tsquery(
-            sourceFile,
-            "ImportDeclaration StringLiteral[value='@angular/core']"
-        );
-
-        angularCoreImports.forEach(stringLiteral => {
-            const componentImports = tsquery(
-                stringLiteral.parent,
-                "NamedImports Identifier[name='Component']"
-            );
-            if (componentImports.length > 0) {
-                isAngularComponentFile = true;
-            }
-        });
-
-        if (!isAngularComponentFile) {
-            return failures;
+        if (hasImport(sourceFile, "@angular/core", "Component")) {
+            relevantClasses = [
+                ...relevantClasses,
+                ...getClassesWithAnnotation(sourceFile, "Component"),
+            ];
         }
 
-        const componentIdentifiers = tsquery(
-            sourceFile,
-            `ClassDeclaration Identifier[name=/Component$/]`
-        );
-        componentIdentifiers.forEach(componentIdentifier => {
-            const {parent: classDeclaration} = componentIdentifier;
+        if (hasImport(sourceFile, "@angular/core", "Directive")) {
+            relevantClasses = [
+                ...relevantClasses,
+                ...getClassesWithAnnotation(sourceFile, "Directive"),
+            ];
+        }
+
+        if (hasImport(sourceFile, "@angular/core", "Pipe")) {
+            relevantClasses = [
+                ...relevantClasses,
+                ...getClassesWithAnnotation(sourceFile, "Pipe"),
+            ];
+        }
+
+        if (hasImport(sourceFile, "@angular/core", "Injectable")) {
+            relevantClasses = [
+                ...relevantClasses,
+                ...getClassesWithAnnotation(sourceFile, "Injectable"),
+            ];
+        }
+
+        relevantClasses.forEach(classDeclaration => {
             const propertyAccessExpressions = tsquery(
                 classDeclaration,
                 `CallExpression PropertyAccessExpression[name.name="subscribe"]`

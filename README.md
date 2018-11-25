@@ -3,9 +3,20 @@
 [![npm version](https://badge.fury.io/js/ngx-componentdestroyed.svg)](https://badge.fury.io/js/ngx-componentdestroyed)
 
 
-# Unsubscribe from Observables in Angular Components
+# Unsubscribe from Observables in Angular
 
-This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular Components. This blog post provides a detailed explanation:
+This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular applications.
+
+**Why?**
+
+Angular applications suffer from memory leak issues if they subscribe Observables without *unsubscribing*   
+
+
+(*Why trigger on `@Injectable()`?*: If services are used in [Hierarchical Dependency Injectors](https://angular.io/guide/hierarchical-dependency-injection#hierarchical-dependency-injectors) they are affected by the same memory-leak issue!)
+
+
+
+This blog post provides additional information:
 
 https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-observables-in-angular-5abde80a5ae3
 
@@ -44,9 +55,9 @@ export class FooComponent implements OnInit, OnDestroy {
 npm i --save @w11k/ngx-componentdestroyed
 ```
 
-**Prepare the Angular Component class**
+**Prepare the class**
 
-The component class must have a `ngOnDestroy()` method (it can be empty):
+The class must have a `ngOnDestroy()` method (it can be empty):
 
 ```
 @Component({
@@ -67,10 +78,10 @@ export class FooComponent implements OnDestroy {
 
 Either use 
 
-- `untilComponentDestroyed()` or 
-- `componentDestroyed()` together with `takeUntil()` 
+- `untilComponentDestroyed(this)` or 
+- `componentDestroyed(this)` together with `takeUntil()` 
 
-as an Observable pipe operator. This only works inside Angular components since this library uses the component's life cycle hooks to determine when the Observable is not needed anymore.
+as an Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
 
 
 **untilComponentDestroyed()**
@@ -103,14 +114,14 @@ Observable.interval(1000)
 
 To enforce this code style, add the provided TSLint rule. This rule triggers if
 
-- a file imports `Component` from `@angular/core`
-- and the class' name ends with `Component`
+- a class is annotated with `Component`, `Directive`, `Pipe` or `Service`
 - and `Observable#subscribe()` is called inside that class
 
 and then enforces that 
 
 - `.pipe()` is called directly before `.subscribe()`
-- and that either `untilComponentDestroyed()` or `takeUntil(...)` is called as the last pipe operator
+- and that either `untilComponentDestroyed()` or `takeUntil()` is called as the last pipe operator
+
 
 ### Installation 
 
@@ -122,7 +133,7 @@ and then enforces that
     "node_modules/@w11k/ngx-componentdestroyed/dist/tslint"
   ],
   "rules": {
-    "w11k-rxjs-angular-component-subscribe-takeuntil": true
+    "w11k-rxjs-angular-subscribe-takeuntil": true
   }
 }
 ```

@@ -3,6 +3,11 @@ import {of} from "rxjs";
 import {map, takeUntil} from "rxjs/operators";
 import {untilComponentDestroyed} from "../index";
 
+class SomeClass {
+    subscribe() {
+    }
+}
+
 @Component({})
 class BadComponent implements OnInit, OnDestroy {
 
@@ -35,6 +40,9 @@ class BadComponent implements OnInit, OnDestroy {
             map(i => i),
             untilComponentDestroyed(this),
         ).subscribe();
+
+        // OK
+        new SomeClass().subscribe();
     }
 
     ngOnDestroy(): void {

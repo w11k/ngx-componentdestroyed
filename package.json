@@ -12,11 +12,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@phenomnomnominal/tsquery": "^3.0.0",
     "rxjs": ">=6.0.0"
   },
   "devDependencies": {
-    "@angular/core": "^7.1.0",
     "@types/chai": "4.1.2",
     "@types/mocha": "2.2.48",
     "chai": "4.1.2",
@@ -36,7 +34,6 @@
     "build": "npm run clean ; tsc -p tsconfig.json && tsc -p tsconfig.dist.es2015.json",
     "prepublishOnly": "npm test && npm run build",
     "postpublish": "git push",
-    "test": "mocha --opts spec/mocha.opts src/**/*test.ts",
-    "test_tslint": "npm run clean && tsc && tslint -p tsconfig.json -c src/tslint/rule.json src/tslint/*.ts"
+    "test": "mocha --opts spec/mocha.opts src/**/*test.ts"
   }
 }

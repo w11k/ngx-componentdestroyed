@@ -38,7 +38,7 @@ export class FooComponent implements OnInit, OnDestroy {
   ngOnInit() {
     Observable.interval(1000)
         .pipe(
-            takeUntil(componentDestroyed(this)) // <--- magic is here!
+            untilComponentDestroyed(this) // <--- magic is here!
         )
         .subscribe();
   }
@@ -78,7 +78,12 @@ export class FooComponent implements OnDestroy {
 
 ## Usage
 
-Use `componentDestroyed(this)` together with `takeUntil()` as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
+Either use
+
+- `untilComponentDestroyed(this)`
+- `takeUntil(componentDestroyed(this))`
+ 
+as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
 
 ```
 import {takeUntil} from "rxjs/operators";
@@ -87,7 +92,22 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 Observable.interval(1000)
     .pipe(
-        takeUntil(componentDestroyed(this))
+        untilComponentDestroyed(this)
     )
     .subscribe();
+```
+
+## TSLint rule
+
+Our sister project [@w11k/rx-ninja](https://github.com/w11k/rx-ninja) provides a TSLint rule to enforce the use a terminator operator. If you want to use `untilComponentDestroyed(this)` instead of `takeUntil(componentDestroyed(this))` please add this configuration:
+
+```
+{
+  "rulesDirectory": [
+    "node_modules/@w11k/rx-ninja/dist/tslint_rules"
+  ],
+  "rules": {
+    "rx-ninja-subscribe-takeuntil": [true, "takeUntil", "untilComponentDestroyed"]
+  }
+}
 ```

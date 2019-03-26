@@ -36,7 +36,7 @@ https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-o
 export class FooComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
-    Observable.interval(1000)
+    interval(1000)
         .pipe(
             untilComponentDestroyed(this) // <--- magic is here!
         )
@@ -86,11 +86,12 @@ Either use
 as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
 
 ```
+import {interval} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 
-Observable.interval(1000)
+interval(1000)
     .pipe(
         untilComponentDestroyed(this)
     )

@@ -1,6 +1,6 @@
 {
   "name": "@w11k/ngx-componentdestroyed",
-  "version": "4.1.4",
+  "version": "5.0.0",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "module": "./dist/es2015/index.js",
@@ -27,7 +27,8 @@
     "typings": "^2.1.1"
   },
   "peerDependencies": {
-    "rxjs": ">=6.0.0"
+    "rxjs": ">=6.0.0",
+    "@angular/core": "<9.x.x"
   },
   "scripts": {
     "clean": "del-cli dist",

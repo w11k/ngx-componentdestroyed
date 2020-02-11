@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.org/w11k/ngx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ngx-componentdestroyed)
 [![npm version](https://badge.fury.io/js/%40w11k%2Fngx-componentdestroyed.svg)](https://badge.fury.io/js/%40w11k%2Fngx-componentdestroyed)
 
+# Warning for Angular 9 users
+
+**This library does currently not work with Angular 9! We are working on a fix. Unfortunately, we expect API changes.**
+
 # Unsubscribe from Observables in Angular
 
 This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular applications.

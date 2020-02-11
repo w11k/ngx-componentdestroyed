@@ -8,11 +8,15 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": false,
+
     "noImplicitAny": true,
-    "skipLibCheck": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
+    "strictFunctionTypes": true,
+    "skipLibCheck": true,
+    "strict": true,
     "target": "es5",
     "outDir": "dist",
     "typeRoots": [

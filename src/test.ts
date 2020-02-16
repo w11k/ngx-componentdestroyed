@@ -6,10 +6,6 @@ import { componentDestroyed, untilComponentDestroyed } from "./index";
 
 class FakeComp extends OnDestroyMixin {
 
-    ngOnDestroy() {
-        super.ngOnDestroy(); // forget this and BOOOOOOOMMM
-        console.log("FakeComp OnDestoy");
-    }
 }
 
 const NOOP = () => {

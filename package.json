@@ -28,11 +28,14 @@
   },
   "peerDependencies": {
     "rxjs": ">=6.0.0",
-    "@angular/core": "<9.x.x"
+    "@angular/core": "<9.x.x",
+    "@w11k/ngx-lifecycle-mixins": "0.0.1"
   },
   "scripts": {
     "clean": "del-cli dist",
     "build": "npm run clean ; tsc -p tsconfig.json && tsc -p tsconfig.dist.es2015.json",
+    "build:es5": "tsc -p tsconfig.json",
+    "build:es2015": "tsc -p tsconfig.dist.es2015.json",
     "prepublishOnly": "npm test && npm run build",
     "postpublish": "git push",
     "test": "mocha --opts spec/mocha.opts src/**/*test.ts"

@@ -1,10 +1,14 @@
-import {assert} from "chai";
-import {of, Subject} from "rxjs";
-import {switchMap, takeUntil} from "rxjs/operators";
-import {componentDestroyed, untilComponentDestroyed} from "./index";
+import { assert } from "chai";
+import { of, Subject, Observable } from "rxjs";
+import { switchMap, takeUntil } from "rxjs/operators";
+import { OnDestroyMixin } from "@w11k/ngx-lifecycle-mixins";
+import { componentDestroyed, untilComponentDestroyed } from "./index";
 
-class FakeComp {
+class FakeComp extends OnDestroyMixin {
+
     ngOnDestroy() {
+        super.ngOnDestroy(); // forget this and BOOOOOOOMMM
+        console.log("FakeComp OnDestoy");
     }
 }
 

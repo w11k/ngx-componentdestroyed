@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { takeUntil, tap } from "rxjs/operators";
+import { takeUntil } from "rxjs/operators";
 
 export function componentDestroyed(component: { observeOnDestroy(): Observable<void> }): Observable<void> {
     const modifiedComponent = component as { observeOnDestroy(): Observable<void>, ngOnDestroy?(): void, __componentDestroyed$?: Observable<void> };

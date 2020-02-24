@@ -11,7 +11,7 @@ class FakeComp extends OnDestroyMixin {
 const NOOP = () => {
 };
 
-describe("componentDestroyed", function () {
+describe("componentDestroyed for Ivy", function () {
 
     it("emits a value when ngOnDestroy() gets called", function () {
         const fakeComp = new FakeComp();

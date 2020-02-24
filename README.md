@@ -2,10 +2,6 @@
 [![Build Status](https://travis-ci.org/w11k/ngx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ngx-componentdestroyed)
 [![npm version](https://badge.fury.io/js/%40w11k%2Fngx-componentdestroyed.svg)](https://badge.fury.io/js/%40w11k%2Fngx-componentdestroyed)
 
-# Warning for Angular 9 users
-
-**This library does currently not work with Angular 9! We are working on a fix. Unfortunately, we expect API changes.**
-
 # Unsubscribe from Observables in Angular
 
 This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular applications.
@@ -29,6 +25,8 @@ https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-o
 **Requirements**
 
 - Requires >= RxJS 6.0.0 (part of Angular 6)
+- Requires @w11k/ngx-lifecycle-mixins
+- optional @w11k/ts-mixins
 
 ## Demo
 
@@ -37,7 +35,7 @@ https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-o
   selector: 'foo',
   templateUrl: './foo.component.html'
 })
-export class FooComponent implements OnInit, OnDestroy {
+export class FooComponent extends withMixins(OnDestroy) implents OnInit {
 
   ngOnInit() {
     interval(1000)
@@ -47,9 +45,6 @@ export class FooComponent implements OnInit, OnDestroy {
         .subscribe();
   }
 
-  ngOnDestroy() {
-  }
-  
 }
 ```
 
@@ -63,20 +58,33 @@ npm i --save @w11k/ngx-componentdestroyed
 
 **Prepare the class**
 
-The class must have a `ngOnDestroy()` method (it can be empty):
+The class must either
+  a) extend `OnDestroyMixin` directly and implement `ngOnDestroy()` with calling super.ngOnDestroy
+  b) extends `withMixins(OnDestroyMixin)` and is not allowed to implement `ngOnDestroy()` any more.
+     Use `observeOnDestroy` with `.pipe` or `.subscribe` instead.
 
 ```
 @Component({
   selector: 'foo',
   templateUrl: './foo.component.html'
 })
-export class FooComponent implements OnDestroy {
+export class FooComponentA extends OnDestroyMixin {
 
   // ...
 
   ngOnDestroy() {
+    super.ngOnDestroy
   }
   
+}
+
+import {withMixins} from "@w11k/ts-mixins"
+@Component({
+  selector: 'foo',
+  templateUrl: './foo.component.html'
+})
+export class FooComponentB extends withMixins(OnDestroyMixin) {
+
 }
 ```
 
@@ -87,7 +95,7 @@ Either use
 - `untilComponentDestroyed(this)`
 - `takeUntil(componentDestroyed(this))`
  
-as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
+as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class extends a `OnDestroyMixin` class.
 
 ```
 import {interval} from "rxjs";

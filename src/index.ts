@@ -1,21 +1,54 @@
-import {Observable, ReplaySubject} from "rxjs";
+import {Observable, ReplaySubject, Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 
-export function componentDestroyed(component: { ngOnDestroy(): void }): Observable<true> {
-    const modifiedComponent = component as { ngOnDestroy(): void, __componentDestroyed$?: Observable<true> };
-    if (modifiedComponent.__componentDestroyed$) {
-        return modifiedComponent.__componentDestroyed$;
-    }
-    const oldNgOnDestroy = component.ngOnDestroy;
-    const stop$ = new ReplaySubject<true>();
-    modifiedComponent.ngOnDestroy = function () {
-        oldNgOnDestroy && oldNgOnDestroy.apply(component);
-        stop$.next(true);
-        stop$.complete();
-    };
-    return modifiedComponent.__componentDestroyed$ = stop$.asObservable();
+const ON_DESTROY_SUBJECT_KEY = Symbol("ON_DESTROY_SUBJECT_KEY");
+
+function getInternalAngularComponent<T>(type: any): any {
+    // noinspection JSNonASCIINames
+    return type.ɵdir || type.ɵcmp;
 }
 
-export function untilComponentDestroyed<T>(component: { ngOnDestroy(): void }): (source: Observable<T>) => Observable<T> {
+export function componentDestroyed(target: any): Observable<void> {
+    const onDestroySubject = Object.getPrototypeOf(target).constructor[ON_DESTROY_SUBJECT_KEY];
+    if (onDestroySubject === undefined) {
+        const proto = Object.getPrototypeOf(target);
+        const compName = proto !== undefined && proto.constructor !== undefined !== proto.constructor.name !== undefined
+                ? ` (${proto.constructor.name})`
+                : "";
+
+        throw new Error(`You are almost there! Please add the @ObserveOnDestroy() decorator to this component${compName}.`);
+    }
+
+    return onDestroySubject;
+}
+
+export function ObserveOnDestroy() {
+    return (target: any) => {
+        const componentDefinition = getInternalAngularComponent(target);
+        if (componentDefinition) {
+            const old = componentDefinition.onDestroy;
+            componentDefinition.onDestroy = function (this: any) {
+                const onDestroySubject = componentDestroyed(this) as Subject<void>;
+                onDestroySubject.next();
+
+                if (old !== undefined && old !== null) {
+                    old();
+                }
+            };
+        } else {
+            throw new Error("Ivy and AoT must be enabled for @ObserveOnDestroy().");
+        }
+
+        function decorated() {
+            target[ON_DESTROY_SUBJECT_KEY] = new ReplaySubject(1);
+        }
+
+        Object.setPrototypeOf(decorated, target);
+
+        return decorated as any;
+    };
+}
+
+export function untilComponentDestroyed<T>(component: any): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>) => source.pipe(takeUntil(componentDestroyed(component)));
 }

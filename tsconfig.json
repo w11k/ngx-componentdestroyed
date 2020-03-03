@@ -8,7 +8,6 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": false,
-
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
@@ -19,6 +18,18 @@
     "strict": true,
     "target": "es5",
     "outDir": "dist",
+    "lib": [
+//      "ES2015.Core",
+//      "ES2015.Collection",
+//      "ES2015.Reflect",
+//      "ES2015.Generator",
+//      "ES2015.Iterable",
+//      "ES2015.Promise",
+      "ES2015.Symbol",
+//      "ES2015.Symbol.WellKnown",
+      "ES2015",
+      "DOM"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ]

@@ -1,11 +1,24 @@
 import {assert} from "chai";
 import {of, Subject} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
-import {componentDestroyed, untilComponentDestroyed} from "./index";
+import {componentDestroyed, ObserveOnDestroy, untilComponentDestroyed} from "./index";
 
+function FakeAngular() {
+    return (target: any) => {
+        // noinspection JSNonASCIINames
+        target.ɵcmp = target;
+    };
+}
+
+function destroyComponent(component: any) {
+    const constructor = Object.getPrototypeOf(component).constructor;
+    const onDestroy = constructor.onDestroy;
+    onDestroy.apply(component);
+}
+
+@ObserveOnDestroy()
+@FakeAngular()
 class FakeComp {
-    ngOnDestroy() {
-    }
 }
 
 const NOOP = () => {
@@ -15,11 +28,32 @@ describe("componentDestroyed", function () {
 
     it("emits a value when ngOnDestroy() gets called", function () {
         const fakeComp = new FakeComp();
-        const signal$ = componentDestroyed(fakeComp);
+        let observable = componentDestroyed(fakeComp);
         let called = false;
-        signal$.subscribe(() => called = true);
-        fakeComp.ngOnDestroy();
+        observable.subscribe(() => called = true);
+        destroyComponent(fakeComp);
         assert.isTrue(called);
+    });
+
+    it("gets reinitialized on component creation", function () {
+        function testRun() {
+            const fakeComp = new FakeComp();
+            let called = false;
+            let closed = false;
+            const source = new Subject();
+            source.pipe(takeUntil(componentDestroyed(fakeComp))).subscribe(
+                    () => called = true,
+                    NOOP,
+                    () => closed = true);
+            source.next(1);
+            destroyComponent(fakeComp);
+            assert.isTrue(called);
+            assert.isTrue(closed);
+        }
+
+        testRun();
+        testRun();
+        testRun();
     });
 
     it("can be used with the pipe and takeUntil operators", function () {
@@ -28,11 +62,12 @@ describe("componentDestroyed", function () {
         let closed = false;
         const source = new Subject();
         source.pipe(takeUntil(componentDestroyed(fakeComp)))
-            .subscribe(NOOP, NOOP, () => closed = true);
+                .subscribe(NOOP, NOOP, () => closed = true);
 
-        fakeComp.ngOnDestroy();
+        destroyComponent(fakeComp);
         assert.isTrue(closed);
     });
+
 
 });
 
@@ -44,9 +79,9 @@ describe("untilComponentDestroyed", function () {
         let closed = false;
         const source = new Subject();
         source.pipe(untilComponentDestroyed(fakeComp))
-            .subscribe(NOOP, NOOP, () => closed = true);
+                .subscribe(NOOP, NOOP, () => closed = true);
 
-        fakeComp.ngOnDestroy();
+        destroyComponent(fakeComp);
         assert.isTrue(closed);
     });
 
@@ -57,16 +92,16 @@ describe("untilComponentDestroyed", function () {
         const vals: number[] = [];
         const source = new Subject<number>();
         source
-            .pipe(
-                untilComponentDestroyed(fakeComp),
-                switchMap<number, number>(val => of(val + 100))
-            )
-            .subscribe(val => vals.push(val), NOOP, () => closed = true);
+                .pipe(
+                        switchMap/*<number, number>*/(val => of(val + 100)),
+                        untilComponentDestroyed(fakeComp),
+                )
+                .subscribe(val => vals.push(val), NOOP, () => closed = true);
 
         source.next(1);
         source.next(2);
         source.next(3);
-        fakeComp.ngOnDestroy();
+        destroyComponent(fakeComp);
 
         assert.deepEqual(vals, [101, 102, 103]);
         assert.isTrue(closed);

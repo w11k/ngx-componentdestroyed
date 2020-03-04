@@ -8,20 +8,6 @@ function getInternalAngularComponent<T>(type: any): any {
     return type.ɵdir || type.ɵcmp;
 }
 
-export function componentDestroyed(target: any): Observable<void> {
-    const onDestroySubject = Object.getPrototypeOf(target).constructor[ON_DESTROY_SUBJECT_KEY];
-    if (onDestroySubject === undefined) {
-        const proto = Object.getPrototypeOf(target);
-        const compName = proto !== undefined && proto.constructor !== undefined !== proto.constructor.name !== undefined
-                ? ` (${proto.constructor.name})`
-                : "";
-
-        throw new Error(`You are almost there! Please add the @ObserveOnDestroy() decorator to this component${compName}.`);
-    }
-
-    return onDestroySubject;
-}
-
 export function ObserveOnDestroy() {
     return (target: any) => {
         const componentDefinition = getInternalAngularComponent(target);
@@ -39,14 +25,29 @@ export function ObserveOnDestroy() {
             throw new Error("Ivy and AoT must be enabled for @ObserveOnDestroy().");
         }
 
-        function decorated() {
-            target[ON_DESTROY_SUBJECT_KEY] = new ReplaySubject(1);
+        function decorated(this: any) {
+            const instance = Reflect.construct(target, arguments);
+            instance[ON_DESTROY_SUBJECT_KEY] = new ReplaySubject(1);
+            return instance;
         }
 
         Object.setPrototypeOf(decorated, target);
-
         return decorated as any;
     };
+}
+
+export function componentDestroyed(target: any): Observable<void> {
+    const onDestroySubject = target[ON_DESTROY_SUBJECT_KEY];
+    if (onDestroySubject === undefined) {
+        const proto = Object.getPrototypeOf(target);
+        const compName = proto !== undefined && proto.constructor !== undefined !== proto.constructor.name !== undefined
+                ? ` (${proto.constructor.name})`
+                : "";
+
+        throw new Error(`You are almost there! Please add the @ObserveOnDestroy() decorator to this component${compName}.`);
+    }
+
+    return onDestroySubject;
 }
 
 export function untilComponentDestroyed<T>(component: any): (source: Observable<T>) => Observable<T> {

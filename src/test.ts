@@ -56,6 +56,46 @@ describe("componentDestroyed", function () {
         testRun();
     });
 
+    it("each component instance has it's own destroyed observable", function () {
+        const fakeComp1 = new FakeComp();
+        const fakeComp2 = new FakeComp();
+
+        let called1 = false;
+        let called2 = false;
+        let closed1 = false;
+        let closed2 = false;
+        const source1 = new Subject();
+        const source2 = new Subject();
+
+        source1.pipe(takeUntil(componentDestroyed(fakeComp1))).subscribe(() => called1 = true, NOOP, () => closed1 = true);
+        source2.pipe(takeUntil(componentDestroyed(fakeComp2))).subscribe(() => called2 = true, NOOP, () => closed2 = true);
+
+        assert.isFalse(called1);
+        assert.isFalse(closed1);
+        assert.isFalse(called2);
+        assert.isFalse(closed2);
+        source1.next();
+        assert.isTrue(called1);
+        assert.isFalse(closed1);
+        assert.isFalse(called2);
+        assert.isFalse(closed2);
+        destroyComponent(fakeComp1);
+        assert.isTrue(called1);
+        assert.isTrue(closed1);
+        assert.isFalse(called2);
+        assert.isFalse(closed2);
+        source2.next();
+        assert.isTrue(called1);
+        assert.isTrue(closed1);
+        assert.isTrue(called2);
+        assert.isFalse(closed2);
+        destroyComponent(fakeComp2);
+        assert.isTrue(called1);
+        assert.isTrue(closed1);
+        assert.isTrue(called2);
+        assert.isTrue(closed2);
+    });
+
     it("can be used with the pipe and takeUntil operators", function () {
         const fakeComp = new FakeComp();
 

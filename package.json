@@ -12,7 +12,7 @@
     "README.md"
   ],
   "dependencies": {
-    "rxjs": ">=6.0.0"
+    "rxjs": ">=6.5.0"
   },
   "devDependencies": {
     "@types/chai": "4.1.2",
@@ -37,7 +37,7 @@
     "clean": "del-cli dist",
     "build": "npm run clean ; npm run dist",
     "dist": "tsc -p tsconfig.json ; tsc -p tsconfig.dist.es2015.json",
-    "dist.watch": "watch 'npm run dist' src",
+    "dist.watch": "watch 'npm run test ; npm run dist' src",
     "test": "mocha --opts spec/mocha.opts src/**/*test.ts"
   }
 }

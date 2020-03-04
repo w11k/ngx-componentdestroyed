@@ -32,18 +32,18 @@ An error will be thrown if your setup does not match the requirements.
 
 ```
 @Component({
-  selector: 'foo',
-  templateUrl: './foo.component.html'
+    selector: 'foo',
+    templateUrl: './foo.component.html'
 })
 @ObserveOnDestroy()                             // <--- 1. add this decorator
 export class FooComponent implements OnInit {
 
-  ngOnInit() {
-    interval(1000)
-        .pipe(
-            untilComponentDestroyed(this)       // <--- 2. use the pipe operator
-        )
-        .subscribe();
+    ngOnInit() {
+        interval(1000)
+            .pipe(
+                untilComponentDestroyed(this)       // <--- 2. use the pipe operator
+            )
+            .subscribe();
   }
 
 }
@@ -59,20 +59,16 @@ npm i --save @w11k/ngx-componentdestroyed
 
 **Prepare the class**
 
-The class must have a `ngOnDestroy()` method (it can be empty):
+Add the `@ObserveOnDestroy()` decorator to your component class.
 
 ```
 @Component({
-  selector: 'foo',
-  templateUrl: './foo.component.html'
+    selector: 'foo',
+    templateUrl: './foo.component.html'
 })
-export class FooComponent implements OnDestroy {
-
-  // ...
-
-  ngOnDestroy() {
-  }
-  
+@ObserveOnDestroy()
+export class FooComponent {
+    ...
 }
 ```
 
@@ -83,12 +79,12 @@ Either use
 - `untilComponentDestroyed(this)`
 - `takeUntil(componentDestroyed(this))`
  
-as the last Observable pipe operator. The TypeScript compiler will ensure that `this`' class implements a `ngOnDestroy()` method.
+as the last Observable pipe operator.
 
 ```
 import {interval} from "rxjs";
 import {takeUntil} from "rxjs/operators";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 
 interval(1000)
@@ -100,7 +96,7 @@ interval(1000)
 
 ## TSLint rule
 
-Our sister project [@w11k/rx-ninja](https://github.com/w11k/rx-ninja) provides a TSLint rule to enforce the use a terminator operator. If you want to use `untilComponentDestroyed(this)` instead of `takeUntil(componentDestroyed(this))` please add this configuration:
+Our sister project [@w11k/rx-ninja](https://github.com/w11k/rx-ninja) provides a TSLint rule to enforce the use a terminator operator. If you want to use `untilComponentDestroyed(this)` instead of `takeUntil(componentDestroyed(this))` please add this configuration to your tslint.json file:
 
 ```
 {

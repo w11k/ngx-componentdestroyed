@@ -1,6 +1,6 @@
 {
   "name": "@w11k/ngx-componentdestroyed",
-  "version": "5.0.0-beta",
+  "version": "5.0.1",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "module": "./dist/es2015/index.js",

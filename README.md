@@ -26,8 +26,6 @@ https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-o
 
 If you are using Angular <= 8 or Angular 9 with ViewEngine instead of Ivy, you have to use a previous version of this library. Please see [ViewEngine usage](https://github.com/w11k/ngx-componentdestroyed/blob/master/docs/viewengine.md) for further instructions. If you are using the latest Angular version and if you have no idea what ViewEngine or Ivy is, just continue with the instructions below.
 
-An error will be thrown if your setup does not match the requirements. 
-
 ## Demo
 
 ```
@@ -35,8 +33,9 @@ An error will be thrown if your setup does not match the requirements.
     selector: 'foo',
     templateUrl: './foo.component.html'
 })
-@ObserveOnDestroy()                                 // <--- 1. add this decorator
-export class FooComponent implements OnInit {
+export class FooComponent 
+            extends OnDestroyMixin                  // <--- 1. extend OnDestroyMixin 
+            implements OnInit { 
 
     ngOnInit() {
         interval(1000)
@@ -49,6 +48,8 @@ export class FooComponent implements OnInit {
 }
 ```
 
+The TypeScript compiler will check that your component extends `OnDestroyMixin` when you try to use `untilComponentDestroyed`.
+
 ## Installation
 
 **Download the NPM package**
@@ -60,17 +61,16 @@ npm i --save @w11k/ngx-componentdestroyed
 
 **Prepare the class**
 
-Add the `@ObserveOnDestroy()` decorator to your component class.
+Your component class must extend `OnDestroyMixin`:
 
 ```
-import {ObserveOnDestroy} from "@w11k/ngx-componentdestroyed";
+import {OnDestroyMixin} from "@w11k/ngx-componentdestroyed";
 
 @Component({
     selector: 'foo',
     templateUrl: './foo.component.html'
 })
-@ObserveOnDestroy()                                 // <--- HERE
-export class FooComponent {
+export class FooComponent extends OnDestroyMixin {  // <--- HERE 
     ...
 }
 ```

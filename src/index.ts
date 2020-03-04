@@ -1,11 +1,10 @@
 import {Observable, ReplaySubject, Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 
-const ON_DESTROY_SUBJECT_KEY = Symbol("ON_DESTROY_SUBJECT_KEY");
-
+/*
 function getInternalAngularComponent<T>(type: any): any {
-    // noinspection JSNonASCIINames
-    return type.ɵdir || type.ɵcmp;
+    noinspection JSNonASCIINames
+    // return type.ɵdir || type.ɵcmp;
 }
 
 export function ObserveOnDestroy() {
@@ -35,21 +34,44 @@ export function ObserveOnDestroy() {
         return decorated as any;
     };
 }
+*/
 
-export function componentDestroyed(target: any): Observable<void> {
-    const onDestroySubject = target[ON_DESTROY_SUBJECT_KEY];
+const ON_DESTROY_SUBJECT_KEY = Symbol("ON_DESTROY_SUBJECT_KEY");
+
+export type ComponentWithOnDestroyObservable = {
+    observeOnDestroy(): Observable<void>;
+};
+
+export class OnDestroyMixin {
+
+    constructor() {
+        (this as any)[ON_DESTROY_SUBJECT_KEY] = new ReplaySubject();
+    }
+
+    observeOnDestroy() {
+        return (this as any)[ON_DESTROY_SUBJECT_KEY];
+    }
+
+    ngOnDestroy() {
+        (this.observeOnDestroy() as Subject<void>).next();
+    }
+
+}
+
+export function componentDestroyed(target: ComponentWithOnDestroyObservable): Observable<void> {
+    const onDestroySubject = (target as any)[ON_DESTROY_SUBJECT_KEY];
     if (onDestroySubject === undefined) {
         const proto = Object.getPrototypeOf(target);
-        const compName = proto !== undefined && proto.constructor !== undefined !== proto.constructor.name !== undefined
-                ? ` (${proto.constructor.name})`
+        const compInfo = proto !== undefined && proto.constructor !== undefined !== proto.constructor.name !== undefined
+                ? ` (component: ${proto.constructor.name})`
                 : "";
 
-        throw new Error(`You are almost there! Please add the @ObserveOnDestroy() decorator to this component${compName}.`);
+        throw new Error(`You are almost there! Please extends the base class 'OnDestroyMixin'${compInfo}.`);
     }
 
     return onDestroySubject;
 }
 
-export function untilComponentDestroyed<T>(component: any): (source: Observable<T>) => Observable<T> {
+export function untilComponentDestroyed<T>(component: ComponentWithOnDestroyObservable): (source: Observable<T>) => Observable<T> {
     return (source: Observable<T>) => source.pipe(takeUntil(componentDestroyed(component)));
 }

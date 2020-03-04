@@ -1,7 +1,7 @@
 import {assert} from "chai";
 import {of, Subject} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
-import {componentDestroyed, ObserveOnDestroy, untilComponentDestroyed} from "./index";
+import {componentDestroyed, OnDestroyMixin, untilComponentDestroyed} from "./index";
 
 function FakeAngularIvyAot() {
     return (target: any) => {
@@ -11,14 +11,15 @@ function FakeAngularIvyAot() {
 }
 
 function destroyComponent(component: any) {
-    const constructor = Object.getPrototypeOf(component).constructor;
-    const onDestroy = constructor.onDestroy;
-    onDestroy.apply(component);
+    // const constructor = Object.getPrototypeOf(component).constructor;
+    // const onDestroy = constructor.onDestroy;
+    // onDestroy.apply(component);
+    component.ngOnDestroy();
 }
 
-@ObserveOnDestroy()
-@FakeAngularIvyAot()
-class FakeComp {
+// @ObserveOnDestroy()
+// @FakeAngularIvyAot()
+class FakeComp extends OnDestroyMixin {
 }
 
 const NOOP = () => {

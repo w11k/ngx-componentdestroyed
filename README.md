@@ -56,6 +56,7 @@ export class FooComponent implements OnInit {
 ```
 npm i --save @w11k/ngx-componentdestroyed
 ```
+## Usage
 
 **Prepare the class**
 
@@ -66,13 +67,13 @@ Add the `@ObserveOnDestroy()` decorator to your component class.
     selector: 'foo',
     templateUrl: './foo.component.html'
 })
-@ObserveOnDestroy()
+@ObserveOnDestroy()                                 // <--- HERE
 export class FooComponent {
     ...
 }
 ```
 
-## Usage
+**Use the pipe operator**
 
 Either use
 
@@ -89,7 +90,7 @@ import {untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 interval(1000)
     .pipe(
-        untilComponentDestroyed(this)
+        untilComponentDestroyed(this)               // <--- HERE
     )
     .subscribe();
 ```

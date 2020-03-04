@@ -63,6 +63,8 @@ npm i --save @w11k/ngx-componentdestroyed
 Add the `@ObserveOnDestroy()` decorator to your component class.
 
 ```
+import {ObserveOnDestroy} from "@w11k/ngx-componentdestroyed";
+
 @Component({
     selector: 'foo',
     templateUrl: './foo.component.html'

@@ -23,13 +23,18 @@ export class FooComponent implements OnInit, OnDestroy {
   ngOnInit() {
     interval(1000)
         .pipe(
-            untilComponentDestroyed(this) // <--- magic is here!
+            untilComponentDestroyed(this)       // <--- 2. use the pipe operator
         )
         .subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() {                               // <--- 1. add empty stub 
   }
   
 }
 ```
+
+The TypeScript compiler will ensure that you implemented **1.** if you try to use **2.**.
+
+
+

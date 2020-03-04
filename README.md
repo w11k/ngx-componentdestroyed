@@ -35,7 +35,7 @@ An error will be thrown if your setup does not match the requirements.
     selector: 'foo',
     templateUrl: './foo.component.html'
 })
-@ObserveOnDestroy()                             // <--- 1. add this decorator
+@ObserveOnDestroy()                                 // <--- 1. add this decorator
 export class FooComponent implements OnInit {
 
     ngOnInit() {

@@ -3,7 +3,7 @@ import {of, Subject} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
 import {componentDestroyed, ObserveOnDestroy, untilComponentDestroyed} from "./index";
 
-function FakeAngular() {
+function FakeAngularIvyAot() {
     return (target: any) => {
         // noinspection JSNonASCIINames
         target.ɵcmp = target;
@@ -17,7 +17,7 @@ function destroyComponent(component: any) {
 }
 
 @ObserveOnDestroy()
-@FakeAngular()
+@FakeAngularIvyAot()
 class FakeComp {
 }
 

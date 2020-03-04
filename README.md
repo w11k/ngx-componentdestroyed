@@ -2,15 +2,11 @@
 [![Build Status](https://travis-ci.org/w11k/ngx-componentdestroyed.svg?branch=master)](https://travis-ci.org/w11k/ngx-componentdestroyed)
 [![npm version](https://badge.fury.io/js/%40w11k%2Fngx-componentdestroyed.svg)](https://badge.fury.io/js/%40w11k%2Fngx-componentdestroyed)
 
-# Warning for Angular 9 users
-
-**This library does currently not work with Angular 9! We are working on a fix. Unfortunately, we expect API changes.**
-
 # Unsubscribe from Observables in Angular
 
 This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular applications.
 
-**Why?**
+## Why?
 
 Failing to unsubscribe from observables will lead to unwanted memory leaks as the observable stream is left open, potentially even after a component has been destroyed or the user has navigated to another page.
 
@@ -20,15 +16,17 @@ This blog post provides additional information:
 
 https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-observables-in-angular-5abde80a5ae3
 
-**Patrons**
+## Patrons
 
 ❤️ [W11K - The Web Engineers](https://www.w11k.de/)
 
 ❤️ [theCodeCampus - Trainings for Angular and TypeScript](https://www.thecodecampus.de/)
 
-**Requirements**
+## First: Check your Angular version!
 
-- Requires >= RxJS 6.0.0 (part of Angular 6)
+If you are using Angular <= 8 or Angular 9 with ViewEngine instead of Ivy, you have to use a previous version of this library. Please see [ViewEngine usage](tree/master/docs/viewengine.md) for further instructions. If you are using the latest Angular version and if you have no idea what ViewEngine or Ivy is, just continue with the instructions below.
+
+An error will be thrown if your setup does not match the requirements. 
 
 ## Demo
 
@@ -37,19 +35,17 @@ https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-o
   selector: 'foo',
   templateUrl: './foo.component.html'
 })
-export class FooComponent implements OnInit, OnDestroy {
+@ObserveOnDestroy()                             // <--- 1. add this decorator
+export class FooComponent implements OnInit {
 
   ngOnInit() {
     interval(1000)
         .pipe(
-            untilComponentDestroyed(this) // <--- magic is here!
+            untilComponentDestroyed(this)       // <--- 2. use the pipe operator
         )
         .subscribe();
   }
 
-  ngOnDestroy() {
-  }
-  
 }
 ```
 

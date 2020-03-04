@@ -24,7 +24,7 @@ https://medium.com/thecodecampus-knowledge/the-easiest-way-to-unsubscribe-from-o
 
 ## First: Check your Angular version!
 
-If you are using Angular <= 8 or Angular 9 with ViewEngine instead of Ivy, you have to use a previous version of this library. Please see [ViewEngine usage](tree/master/docs/viewengine.md) for further instructions. If you are using the latest Angular version and if you have no idea what ViewEngine or Ivy is, just continue with the instructions below.
+If you are using Angular <= 8 or Angular 9 with ViewEngine instead of Ivy, you have to use a previous version of this library. Please see [ViewEngine usage](https://github.com/w11k/ngx-componentdestroyed/blob/master/docs/viewengine.md) for further instructions. If you are using the latest Angular version and if you have no idea what ViewEngine or Ivy is, just continue with the instructions below.
 
 An error will be thrown if your setup does not match the requirements. 
 

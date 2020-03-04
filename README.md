@@ -111,3 +111,13 @@ Our sister project [@w11k/rx-ninja](https://github.com/w11k/rx-ninja) provides a
   }
 }
 ```
+
+## A note on Ivy, ViewEngine, AoT on/off, Karma, Jest, ...
+
+We tried everything but the current state of Angular's Ivy compilation is a f@#!ing nightmare: 
+
+- Base classes do not work with ViewEngine
+- Ivy doesn't work with patching at runtime (this library version <= 4)
+- Decorator tricks rely on Angular internals and **will** break in the future ...
+- ... they don't work with Karma or Jest
+- ... but even if the don't break, they don't work with AoT compilation turned off

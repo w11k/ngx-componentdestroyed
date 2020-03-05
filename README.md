@@ -99,6 +99,11 @@ interval(1000)
     .subscribe();
 ```
 
+**Be careful with implementing `ngOnDestroy()`**
+
+If the component implements `ngOnDestroy()`, it must call `super.ngOnDestroy()` within the method body. 
+
+
 ## Migration guide 4.x.x -> 5.x.x
 
 1. The component class has to extend `OnDestroyMixin` (import from `@w11k/ngx-componentdestroyed`).

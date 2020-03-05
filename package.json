@@ -1,12 +1,18 @@
 {
   "name": "@w11k/ngx-componentdestroyed",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "module": "./dist/es2015/index.js",
   "typings": "dist/index.d.ts",
   "repository": "https://github.com/w11k/ngx-componentdestroyed",
-  "keywords": ["Angular", "RxJS", "unsubscribe", "easy unsubscribe", "memory leak"],
+  "keywords": [
+    "Angular",
+    "RxJS",
+    "unsubscribe",
+    "easy unsubscribe",
+    "memory leak"
+  ],
   "files": [
     "dist",
     "LICENSE",

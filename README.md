@@ -6,6 +6,8 @@
 
 This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular applications.
 
+**If you already use this library and want to it with Angular 9:** Please check the [Migration Guide](.).
+
 ## Why?
 
 Failing to unsubscribe from observables will lead to unwanted memory leaks as the observable stream is left open, potentially even after a component has been destroyed or the user has navigated to another page.
@@ -96,6 +98,12 @@ interval(1000)
     )
     .subscribe();
 ```
+
+## Migration guide 4.x.x -> 5.x.x
+
+1. The component class has to extend `OnDestroyMixin` (import from `@w11k/ngx-componentdestroyed`).
+2. If the component class has a constructor (very likely), you have to call `super()` at the beginning. The TypeScript compiler will complain if you don't.
+3. You **must** either remove the existing `ngOnDestroy()` method (if empty, recommended) or call `super.ngOnDestroy()` within.
 
 ## TSLint rule
 

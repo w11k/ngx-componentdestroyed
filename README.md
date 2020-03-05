@@ -61,7 +61,7 @@ npm i --save @w11k/ngx-componentdestroyed
 ```
 ## Usage
 
-**Prepare the class**
+### Prepare the class
 
 Your component class must extend `OnDestroyMixin`:
 
@@ -77,7 +77,7 @@ export class FooComponent extends OnDestroyMixin {  // <--- HERE
 }
 ```
 
-**Use the pipe operator**
+### Use the pipe operator
 
 Either use
 
@@ -99,7 +99,7 @@ interval(1000)
     .subscribe();
 ```
 
-**Be careful with implementing `ngOnDestroy()`**
+### Be careful with implementing `ngOnDestroy()`
 
 If the component implements `ngOnDestroy()`, it must call `super.ngOnDestroy()` within the method body. 
 

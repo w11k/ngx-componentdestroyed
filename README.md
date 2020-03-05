@@ -6,7 +6,7 @@
 
 This library provides utility methods which help to unsubscribe from ReactiveX's Observables in Angular applications.
 
-**If you already use this library and want to it with Angular 9:** Please check the [Migration Guide](.).
+**If you already use this library and want to it with Angular 9:** Please check the [Migration Guide](https://github.com/w11k/ngx-componentdestroyed#migration-guide-4xx---5xx).
 
 ## Why?
 

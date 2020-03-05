@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "module": "./dist/es2015/index.js",
   "typings": "dist/index.d.ts",
-  "repository": "https://github.com/w11k/ng2-rx-componentdestroyed",
+  "repository": "https://github.com/w11k/ngx-componentdestroyed",
+  "keywords": ["Angular", "RxJS", "unsubscribe", "easy unsubscribe", "memory leak"],
   "files": [
     "dist",
     "LICENSE",

@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {of, Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {switchMap, takeUntil} from "rxjs/operators";
 import {componentDestroyed, OnDestroyMixin, untilComponentDestroyed} from "./index";
 
@@ -65,8 +65,8 @@ describe("componentDestroyed", function () {
         let called2 = false;
         let closed1 = false;
         let closed2 = false;
-        const source1 = new Subject();
-        const source2 = new Subject();
+        const source1 = new Subject<void>();
+        const source2 = new Subject<void>();
 
         source1.pipe(takeUntil(componentDestroyed(fakeComp1))).subscribe(() => called1 = true, NOOP, () => closed1 = true);
         source2.pipe(takeUntil(componentDestroyed(fakeComp2))).subscribe(() => called2 = true, NOOP, () => closed2 = true);
@@ -134,8 +134,8 @@ describe("untilComponentDestroyed", function () {
         const source = new Subject<number>();
         source
                 .pipe(
-                        switchMap/*<number, number>*/(val => of(val + 100)),
-                        untilComponentDestroyed(fakeComp),
+                        switchMap<number, Observable<number>>((val) => of<number>(val + 100)),
+                        untilComponentDestroyed<number>(fakeComp),
                 )
                 .subscribe(val => vals.push(val), NOOP, () => closed = true);
 

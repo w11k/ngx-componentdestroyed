@@ -1,6 +1,6 @@
 {
   "name": "@w11k/ngx-componentdestroyed",
-  "version": "5.0.2",
+  "version": "6.0.0",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "module": "./dist/es2015/index.js",
@@ -19,7 +19,7 @@
     "README.md"
   ],
   "dependencies": {
-    "rxjs": ">=6.5.0"
+    "rxjs": "^7.5.7"
   },
   "devDependencies": {
     "@types/chai": "4.1.2",
@@ -30,13 +30,13 @@
     "np": "6.2.0",
     "source-map-support": "0.5.3",
     "ts-node": "4.1.0",
-    "tslint": "^6.0.0",
-    "typescript": "^3.1.6",
+    "tslint": "^6.1.3",
+    "typescript": "^4.6.4",
     "watch": "1.0.2"
   },
   "peerDependencies": {
-    "rxjs": ">=6.0.0",
-    "@angular/core": ">=9.x.x"
+    "rxjs": ">=7.5.7",
+    "@angular/core": ">=13.x.x"
   },
   "scripts": {
     "np": "np",
